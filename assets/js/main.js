@@ -1,224 +1,140 @@
-/**
-* Template Name: Personal - v4.9.1
-* Template URL: https://bootstrapmade.com/personal-free-resume-bootstrap-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-(function() {
+(function () {
   "use strict";
 
-  /**
-   * Easy selector helper function
-   */
-  const select = (el, all = false) => {
-    el = el.trim()
-    if (all) {
-      return [...document.querySelectorAll(el)]
-    } else {
-      return document.querySelector(el)
-    }
-  }
+  const nav = document.getElementById("nav");
+  const menuBtn = document.querySelector(".menu-btn");
+  const links = [...document.querySelectorAll(".nav nav a")];
+  const sections = links
+    .map((link) => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
+  const motion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /**
-   * Easy event listener function
-   */
-  const on = (type, el, listener, all = false) => {
-    let selectEl = select(el, all)
-
-    if (selectEl) {
-      if (all) {
-        selectEl.forEach(e => e.addEventListener(type, listener))
-      } else {
-        selectEl.addEventListener(type, listener)
-      }
-    }
-  }
-
-  /**
-   * Scrolls to an element with header offset
-   */
-  const scrollto = (el) => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
-  }
-
-  /**
-   * Mobile nav toggle
-   */
-  on('click', '.mobile-nav-toggle', function(e) {
-    select('#navbar').classList.toggle('navbar-mobile')
-    this.classList.toggle('bi-list')
-    this.classList.toggle('bi-x')
-  })
-
-  /**
-   * Scrool with ofset on links with a class name .scrollto
-   */
-  on('click', '#navbar .nav-link', function(e) {
-    let section = select(this.hash)
-    if (section) {
-      e.preventDefault()
-
-      let navbar = select('#navbar')
-      let header = select('#header')
-      let sections = select('section', true)
-      let navlinks = select('#navbar .nav-link', true)
-
-      navlinks.forEach((item) => {
-        item.classList.remove('active')
-      })
-
-      this.classList.add('active')
-
-      if (navbar.classList.contains('navbar-mobile')) {
-        navbar.classList.remove('navbar-mobile')
-        let navbarToggle = select('.mobile-nav-toggle')
-        navbarToggle.classList.toggle('bi-list')
-        navbarToggle.classList.toggle('bi-x')
-      }
-
-      if (this.hash == '#header') {
-        header.classList.remove('header-top')
-        sections.forEach((item) => {
-          item.classList.remove('section-show')
-        })
-        return;
-      }
-
-      if (!header.classList.contains('header-top')) {
-        header.classList.add('header-top')
-        setTimeout(function() {
-          sections.forEach((item) => {
-            item.classList.remove('section-show')
-          })
-          section.classList.add('section-show')
-
-        }, 350);
-      } else {
-        sections.forEach((item) => {
-          item.classList.remove('section-show')
-        })
-        section.classList.add('section-show')
-      }
-
-      scrollto(this.hash)
-    }
-  }, true)
-
-  /**
-   * Activate/show sections on load with hash links
-   */
-  window.addEventListener('load', () => {
-    if (window.location.hash) {
-      let initial_nav = select(window.location.hash)
-
-      if (initial_nav) {
-        let header = select('#header')
-        let navlinks = select('#navbar .nav-link', true)
-
-        header.classList.add('header-top')
-
-        navlinks.forEach((item) => {
-          if (item.getAttribute('href') == window.location.hash) {
-            item.classList.add('active')
-          } else {
-            item.classList.remove('active')
-          }
-        })
-
-        setTimeout(function() {
-          initial_nav.classList.add('section-show')
-        }, 350);
-
-        scrollto(window.location.hash)
-      }
-    }
+  menuBtn.addEventListener("click", () => {
+    const open = nav.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", String(open));
+    menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   });
 
-  /**
-   * Skills animation
-   */
-  let skilsContent = select('.skills-content');
-  if (skilsContent) {
-    new Waypoint({
-      element: skilsContent,
-      offset: '80%',
-      handler: function(direction) {
-        let progress = select('.progress .progress-bar', true);
-        progress.forEach((el) => {
-          el.style.width = el.getAttribute('aria-valuenow') + '%'
-        });
+  links.forEach((link) => {
+    link.addEventListener("click", () => {
+      nav.classList.remove("open");
+      menuBtn.setAttribute("aria-expanded", "false");
+      menuBtn.setAttribute("aria-label", "Open menu");
+    });
+  });
+
+  const reveal = () => {
+    document.querySelectorAll(".reveal").forEach((el) => {
+      const top = el.getBoundingClientRect().top;
+      if (top < window.innerHeight * 0.92) el.classList.add("in");
+    });
+  };
+
+  const markNav = () => {
+    nav.classList.toggle("scrolled", window.scrollY > 8);
+    let current = sections[0];
+    sections.forEach((section) => {
+      if (section.getBoundingClientRect().top < 140) current = section;
+    });
+    links.forEach((link) => {
+      link.classList.toggle("active", current && link.getAttribute("href") === "#" + current.id);
+    });
+  };
+
+  window.addEventListener("scroll", () => {
+    reveal();
+    markNav();
+  }, { passive: true });
+  reveal();
+  markNav();
+
+  const clockTime = document.getElementById("clock-time");
+  const clockDate = document.getElementById("clock-date");
+  const timeFormat = new Intl.DateTimeFormat("en-IN", {
+    timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
+  });
+  const dateFormat = new Intl.DateTimeFormat("en-IN", {
+    timeZone: "Asia/Kolkata", weekday: "short", day: "numeric", month: "short", year: "numeric"
+  });
+  const tick = () => {
+    const now = new Date();
+    clockTime.textContent = timeFormat.format(now) + " IST";
+    clockDate.textContent = dateFormat.format(now);
+  };
+  tick();
+  setInterval(tick, 1000);
+
+  const canvas = document.getElementById("field");
+  if (!canvas || motion) return;
+
+  const ctx = canvas.getContext("2d");
+  let dots = [];
+  let width = 0;
+  let height = 0;
+  let frame = 0;
+  const pointer = { x: -9999, y: -9999 };
+
+  const resize = () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    const count = Math.min(70, Math.floor((width * height) / 18000));
+    dots = Array.from({ length: count }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35
+    }));
+  };
+
+  const draw = () => {
+    ctx.clearRect(0, 0, width, height);
+    for (const dot of dots) {
+      dot.x += dot.vx;
+      dot.y += dot.vy;
+      const dx = pointer.x - dot.x;
+      const dy = pointer.y - dot.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 140) {
+        dot.x -= dx * 0.008;
+        dot.y -= dy * 0.008;
       }
-    })
-  }
-
-  
-  /**
-   * Porfolio isotope and filter
-   */
-  window.addEventListener('load', () => {
-    let portfolioContainer = select('.portfolio-container');
-    if (portfolioContainer) {
-      let portfolioIsotope = new Isotope(portfolioContainer, {
-        itemSelector: '.portfolio-item',
-        layoutMode: 'fitRows'
-      });
-
-      let portfolioFilters = select('#portfolio-flters li', true);
-
-      on('click', '#portfolio-flters li', function(e) {
-        e.preventDefault();
-        portfolioFilters.forEach(function(el) {
-          el.classList.remove('filter-active');
-        });
-        this.classList.add('filter-active');
-
-        portfolioIsotope.arrange({
-          filter: this.getAttribute('data-filter')
-        });
-      }, true);
+      if (dot.x < 0 || dot.x > width) dot.vx *= -1;
+      if (dot.y < 0 || dot.y > height) dot.vy *= -1;
     }
 
-  });
-
-  /**
-   * Initiate portfolio lightbox 
-   */
-  const portfolioLightbox = GLightbox({
-    selector: '.portfolio-lightbox'
-  });
-
-  /**
-   * Initiate portfolio details lightbox 
-   */
-  const portfolioDetailsLightbox = GLightbox({
-    selector: '.portfolio-details-lightbox',
-    width: '90%',
-    height: '90vh'
-  });
-
-  /**
-   * Portfolio details slider
-   */
-  new Swiper('.portfolio-details-slider', {
-    speed: 400,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
+    for (let i = 0; i < dots.length; i++) {
+      for (let j = i + 1; j < dots.length; j++) {
+        const a = dots[i];
+        const b = dots[j];
+        const dist = Math.hypot(a.x - b.x, a.y - b.y);
+        if (dist < 130) {
+          ctx.strokeStyle = "rgba(120, 220, 220, " + (1 - dist / 130) * 0.35 + ")";
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+      ctx.fillStyle = "rgba(190, 180, 255, 0.85)";
+      ctx.beginPath();
+      ctx.arc(dots[i].x, dots[i].y, 1.4, 0, Math.PI * 2);
+      ctx.fill();
     }
+    frame = requestAnimationFrame(draw);
+  };
+
+  window.addEventListener("resize", resize);
+  window.addEventListener("pointermove", (event) => {
+    pointer.x = event.clientX;
+    pointer.y = event.clientY;
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) cancelAnimationFrame(frame);
+    else frame = requestAnimationFrame(draw);
   });
 
-  /**
-   * Initiate Pure Counter 
-   */
-  new PureCounter();
-
-})()
+  resize();
+  draw();
+})();
