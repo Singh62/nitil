@@ -1,42 +1,26 @@
+# Nitil Singh
 
-# NITIL SINGH
+Personal portfolio for Nitil Singh, Senior Software Engineer (SDE 2) at PeopleStrong with around 5 years of experience. Static site built with plain HTML, CSS, and JavaScript.
 
-## About Me
+## Current profile
 
-Passionate software developer with 1+ year of experience, dedicated to delivering high-quality software solutions. Eager to contribute to innovative projects, continuously learn, and excel in a collaborative environment. Seeking opportunities to join a dynamic team and drive business success through cutting-edge development practices.
+- **Role:** SDE 2, PeopleStrong (October 2025 – Present), Gurugram
+- **Previously:** Amdocs (January 2022 – September 2025), Pune — intern, Software Developer, then Experienced Software Engineer
+- **Education:** NITian '22 — Master's in Computer Applications, NIT Trichy (2019 – 2022); BCA, IIPS, DAVV Indore (2016 – 2019)
+- **Focus:** Java, Spring Boot, microservices, RESTful APIs, AWS, Docker, Kubernetes, and applied machine learning
 
-## Contact Information
+## Projects
 
-- **Email**: [singhnitil30@gmail.com](mailto:singhnitil30@gmail.com)
-- **LinkedIn**: [Your LinkedIn Profile](linkedin.com/in/nitil-singh-43ba561a4/)
-- **GitHub**: [Your GitHub Profile](https://github.com/Singh62)
+- [e-mart](https://github.com/Singh62/e-mart) — full-stack e-commerce app (Spring Boot, Angular)
+- [SpringBanker](https://github.com/Singh62/SpringBanker) — banking application (Spring Boot)
+- Telecom Churn Prediction — machine learning model built at NIT Trichy
+- Portfolio — this site
 
-## Work Experience
+## Contact
 
-### Amdocs (Internship)
-- **Date**: Jan 2022 - June 2022
-- **Description**: JAVA, Spring Boot, Hibernate, Docker, Kubernetes, JFR & JMC.
+- **Email:** [nitilsingh1998@gmail.com](mailto:nitilsingh1998@gmail.com)
+- **LinkedIn:** [linkedin.com/in/nitilsingh](https://www.linkedin.com/in/nitilsingh)
+- **GitHub:** [github.com/Singh62](https://github.com/Singh62)
+- **Site:** [nitil07.github.io/me/](https://nitil07.github.io/me/)
 
-## Education
-
-### NIT, Trichy (M.C.A)
-- **Date**: 2022
-
-### International Institute of Professional Studies, Devi Ahilya University, Indore (B.C.A)
-- **Date**: 2019
-
-
-## Skills
-
-- Java
-- Mysql
-- Dart
-- CPP
-
-## References
-
-Available upon request.
-
----
-
-Feel free to customize this Markdown template with your own details. Replace the placeholders such as `[NITIL SINGH]`, and other information with your actual details. You can also add or remove sections based on your preferences and the content you want to showcase.
+Open `index.html` in a browser to view the site locally.
